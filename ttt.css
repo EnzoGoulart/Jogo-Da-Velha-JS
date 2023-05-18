@@ -1,0 +1,112 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+body{
+    background-color: #d2b48c;
+}
+h1{
+    text-align: center;
+    padding: 40px 0px 20px 0px;
+}
+#game{
+    display: flex;
+    width: 237px;
+    flex-wrap: wrap;
+    margin: auto;
+}
+.cell{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    height: 75px;
+    width: 75px;
+    border: 2px solid rgba(0, 0, 0, 0.89);
+    cursor: pointer;
+}
+.cell:hover{
+    background-color: #c9a576;
+    transition: .3s;
+}
+#botao{
+    border: none;
+    background-color: rgb(255, 173, 125);
+    padding: 20px;
+    position: relative;
+    left: 50%;
+    margin: 40px 0px;
+    transform: translate(-50%,-50%);
+    border: 6px solid rgb(109, 27, 27);
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: cursive;
+    font-size: 20px;
+}
+#botao:hover, #botao2:hover{
+    background-color: rgb(252, 124, 50);
+    font-weight: 500;
+    transition: .3s;
+}
+#times, #result{
+    text-align: center;
+    padding: 20px 0px;
+    font-family: cursive;
+    font-size: 25px;
+}
+.inDiv{
+    margin: auto;
+    font-family: cursive;
+    font-size: 35px;
+    
+}
+#c0{
+    border-top-left-radius: 15px;
+}
+#c2{
+    border-top-right-radius: 15px;
+}
+#c6{
+    border-bottom-left-radius: 15px;
+}
+#c8{
+    border-bottom-right-radius: 15px;
+}
+#divInfos{
+    width: 40%;
+    margin: -50px auto 30px auto;
+    display: flex;
+    columns: 1;
+    min-height: 130px;
+    text-align: center;
+    background-color: rgb(255, 134, 63);
+    border-radius: 15px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.253);
+}
+.pInfo{
+    padding: 5px 0px;
+    font-size: 18px;
+    font-family: cursive;
+}
+#pInfo1{
+    padding: 20px 0px 0px 0px;
+}
+#pInfo4{
+    margin-bottom: 30px;
+}
+#divBotao2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#botao2{
+    border: none;
+    background-color: rgb(255, 173, 125);
+    padding: 10px;
+    margin: 0px auto 25px auto;
+    border: 4px solid rgb(109, 27, 27);
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: cursive;
+    font-size: 18px;
+}
