@@ -11,6 +11,7 @@ resultado.style.display = 'none'
 let totPartidas = 0
 let xWins = 0
 let oWins = 0
+let debug = 0
 let totDraws = 0
 let gameEnded = false;
 const cells = document.querySelectorAll('.cell');
@@ -18,6 +19,7 @@ cells.forEach(cell => {
   cell.addEventListener('click', clicado);
 });
 function clicado(event) {
+  debug = 0
   botao.innerHTML = 'Proxima'
   const cell = event.target;
   if (cell.textContent === "" && !gameEnded) {
@@ -25,18 +27,16 @@ function clicado(event) {
     checkGameStatus();
     togglePlayer();
     recomecar()
-    console.log('Cheguei 1')
   }
 }
 
 function togglePlayer() {
-  if(currentPlayer == 'X'){
+  if (currentPlayer == 'X') {
     currentPlayer = 'O'
-  }else{
+  } else {
     currentPlayer = 'X'
   }
   time.innerHTML = `Vez do ${currentPlayer}`;
-  console.log('Player mudou'+currentPlayer)
 }
 
 function checkGameStatus() {
@@ -46,9 +46,9 @@ function checkGameStatus() {
     [6, 7, 8],
     [0, 3, 6],
     [1, 4, 7],
-    [2, 5, 8], 
+    [2, 5, 8],
     [0, 4, 8],
-    [2, 4, 6] 
+    [2, 4, 6]
   ];
 
   for (comb of winningCombinations) {
@@ -92,33 +92,36 @@ function announceDrawn() {
   resultado.innerHTML = 'Empate!'
 }
 async function recomecar() {
-  resultado.style.display = 'none'
-  time.style.display = 'block'
-  gameEnded = false
-  totPartidas == 0 ? infos.style.display = 'none' : infos.style.display = 'block'
-  infos.style.display == 'block' ? reiniciar.style.display = 'block' : reiniciar.style.display = 'none'
-  infos.innerHTML = `<p class="pInfo" id="pInfo1">Partida atual - ${totPartidas + 1}</p>`
-  infos.innerHTML += `<p class="pInfo">X:${xWins} vs O:${oWins}</p>`
-  totDraws != 1 ? infos.innerHTML += `<p class="pInfo">${totDraws} empates</p>` : infos.innerHTML += `<p class="pInfo" id="pInfo4">${totDraws} empate</p>`
-  };
+  botao.addEventListener('click', () => {
+    while (debug <= 1) {
+      resultado.style.display = 'none'
+      time.style.display = 'block'
+      gameEnded = false
+      totPartidas == 0 ? infos.style.display = 'none' : infos.style.display = 'block'
+      infos.style.display == 'block' ? reiniciar.style.display = 'block' : reiniciar.style.display = 'none'
+      infos.innerHTML = `<p class="pInfo" id="pInfo1">Partida atual - ${totPartidas + 1}</p>`
+      infos.innerHTML += `<p class="pInfo">X:${xWins} vs O:${oWins}</p>`
+      totDraws != 1 ? infos.innerHTML += `<p class="pInfo">${totDraws} empates</p>` : infos.innerHTML += `<p class="pInfo" id="pInfo4">${totDraws} empate</p>`
+      debug += 1
+    }
+  })
+};
 
 reiniciar.addEventListener('click', () => {
   location.reload()
 })
 
-function ChangePlayer(){
+function ChangePlayer() {
   VerificaChange = Array.from(cells).every((cell) => cell.textContent === '');
-  if(VerificaChange && totPartidas >0){
+  if (VerificaChange && totPartidas > 0) {
     botao.innerHTML = 'Mudar Jogador'
-    console.log('mudar jogador')
   }
 }
 
-botao.addEventListener('click',() => {
-  console.log('botao clicado')
+botao.addEventListener('click', () => {
   cells.forEach(cell => {
     cell.innerHTML = ''
   })
   ChangePlayer()
   togglePlayer()
-  })
+})
