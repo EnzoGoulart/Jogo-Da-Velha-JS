@@ -203,4 +203,3 @@ botao.addEventListener('click', () => {
 reiniciar.addEventListener('click', () => {
   location.reload()
 })
-botaoUndo
