@@ -7,10 +7,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo da Velha</title>
     <link rel="stylesheet" href="ttt.css">
+    <link rel="shortcut icon" href="TicTacToeFavicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
 
 <body>
-    <h1>Tic Tac Toe</h1>
+    <div id="divIcon"> 
+        <span id="less" class="material-symbols-outlined">
+            expand_less
+            </span>
+        <span id="more" class="material-symbols-outlined">
+                expand_more
+                </span>
+    </div>
+    <div id="divOptions">
+        <p id="pConf">Configs</p>
+        <p id="pcor1">Cor primária:</p>
+        <div id="Cores1">
+            <div class="padrao" id="pPadrao"></div>
+            <div class="preto" id="pPreto"></div>
+            <div class="branco" id="pBranco"></div>
+            <div class="vermelho" id="pVermelho"></div>
+            <div class="azul" id="pAzul"></div>
+        </div>
+        <p id="pcor2">Cor secundária:</p>
+        <div id="Cores2">
+            <div class="padrao" id="sPadrao"></div>
+            <div class="preto" id="sPreto"></div>
+            <div class="branco" id="sBranco"></div>
+            <div class="vermelho" id="sVermelho"></div>
+            <div class="azul" id="sAzul"></div>
+        </div>
+    </div>
+    <h1 id="h1a">Tic Tac Toe</h1>
     <div id="game">
         <div class="cell" id="c0"></div>
         <div class="cell" id="c1"></div>
@@ -22,14 +52,18 @@
         <div class="cell" id="c7"></div>
         <div class="cell" id="c8"></div>
     </div>
-    <p id="times">vez do X</p>
+    <p id="times">Vez do X</p>
     <p id="result"></p>
-    <button id="botao">Proxima</button>
+    <div id="divBotao1">
+        <button id="botao"></button>
+        <button id="botaoUndo">Voltar</button>
+    </div>
     <div id="divInfos">
     </div>
-    <div id="divBotao2"><button id="botao2">Reiniciar</button></div>
-
-    <script src="ttt.js"></script>
+    <div id="divBotao2"><button id="botaoRecomecar">Reiniciar</button></div>
+    <script src="tttGame.js"></script>
+    <script src="tttIcons.js"></script>
+    <script src="tttCustomColors.js"></script>
 </body>
 
 </html>
