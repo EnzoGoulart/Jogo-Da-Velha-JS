@@ -1,5 +1,4 @@
-//bugs: hover das cell não funciona quando a cor é trocada e depois volta
-// botao sem responsividade
+let data = new Date()
 let c0 = document.getElementById('c0')
 let c1 = document.getElementById('c1')
 let c2 = document.getElementById('c2')
@@ -10,7 +9,12 @@ let c6 = document.getElementById('c6')
 let c7 = document.getElementById('c7')
 let c8 = document.getElementById('c8')
 const cells = document.querySelectorAll('.cell');
-let currentPlayer = 'X';
+let inDiv = document.querySelectorAll('.inDiv')
+
+let inDiv2 = document.getElementsByClassName('.inDiv2')
+let currentPlayer = 'X'
+let jogador1;
+let jogador2;
 let VerificaChange = false
 let VerificaChange2 = false
 let body = document.querySelector('body')
@@ -50,19 +54,90 @@ let sPreto = document.getElementById('sPreto')
 let sBranco = document.getElementById('sBranco')
 let sVermelho = document.getElementById('sVermelho')
 let sAzul = document.getElementById('sAzul')
-botao
+
+let inputX = document.getElementById('pNovox')
+let inputO = document.getElementById('pNovoo')
+let botaoXO = document.getElementById('enviaInfos')
+let pError1 = document.getElementById('pError')
+let divInicio = document.getElementById('inicio')
+
 let totUndos = 1
 let totHistoric = 0
 let cellId;
-let d = 0
 let moveHistoric = []
+
+let botaoMqn = document.getElementById('botaoPM')
+let botaoP = document.getElementById('botaoMM')
+
+let botaoMqnMenu = document.getElementById('botaoPMMenu')
+let botaoPMenu = document.getElementById('botaoMMMenu')
+
+let contram = false
+let pvpchoice = false
+let maqOptions = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8']
+let sortCell;
+let passagens = 0
+let mo;
+h1a.style.fontSize = '80px'
+cells.forEach(cell => {
+  cell.style.display = 'none'
+  time.style.display = 'none'
+})
+botaoMqn.addEventListener('click', () => {
+  botaoMqn.style.display = 'none'
+  botaoP.style.display = 'none'
+  cells.forEach(cell => {
+    cell.style.display = 'block'
+  })
+  time.style.display = 'block'
+  contram = true
+  h1a.style.fontSize = '50px'
+  divInicio.style.display = 'none'
+  recomecar()
+})
+botaoP.addEventListener('click', () => {
+  botaoMqn.style.display = 'none'
+  botaoP.style.display = 'none'
+  cells.forEach(cell => {
+    cell.style.display = 'block'
+  })
+  time.style.display = 'block'
+  h1a.style.fontSize = '50px'
+  divInicio.style.display = 'none'
+  contram = false
+  recomecar()
+})
+botaoMqnMenu.addEventListener('click', () => {
+  botaoMqn.style.display = 'none'
+  botaoP.style.display = 'none'
+  cells.forEach(cell => {
+    cell.style.display = 'block'
+  })
+  time.style.display = 'block'
+  contram = true
+  h1a.style.fontSize = '50px'
+  divInicio.style.display = 'none'
+})
+botaoPMenu.addEventListener('click', () => {
+  botaoMqn.style.display = 'none'
+  botaoP.style.display = 'none'
+  cells.forEach(cell => {
+    cell.style.display = 'block'
+  })
+  time.style.display = 'block'
+  h1a.style.fontSize = '50px'
+  divInicio.style.display = 'none'
+  contram = false
+  recomecar()
+})
 cells.forEach((cell) => {
   cell.addEventListener('click', clicado);
 });
+
 botaoUndo.addEventListener('click', undoFunction)
+
 function undoFunction(event) {
   let everyNull = Array.from(cells).every(cell => cell.innerHTML == '')
-  console.log(everyNull)
   if (!everyNull) {
     let lastMove = moveHistoric[totHistoric - totUndos]
     lastMove == 'c0' ? c0.innerHTML = '' : lastMove == 'c1' ? c1.innerHTML = '' : lastMove == 'c2' ? c2.innerHTML = '' : lastMove == 'c3' ? c3.innerHTML = '' : lastMove == 'c4' ? c4.innerHTML = '' : lastMove == 'c5' ? c5.innerHTML = '' : lastMove == 'c6' ? c6.innerHTML = '' : lastMove == 'c7' ? c7.innerHTML = '' : lastMove == 'c8' ? c8.innerHTML = '' :
@@ -70,7 +145,6 @@ function undoFunction(event) {
     moveHistoric.pop()
     togglePlayer()
     totUndos += 1
-    console.log('AAAA')
   }
 }
 function clicado(event) {
@@ -88,17 +162,42 @@ function clicado(event) {
   const cell = event.target;
   if (cell.textContent === "" && !gameEnded) {
     cell.innerHTML = `<p class="inDiv">${currentPlayer}</p>`;
-    checkGameStatus();
-    togglePlayer();
-    recomecar()
+    if (contram) {
+      togglePlayer()
+      maqPlay()
+      checkGameStatus()
+      recomecar()
+    } else {
+      checkGameStatus();
+      togglePlayer();
+      recomecar()
+    }
   }
 }
-
+function maqPlay() {
+  if (contram) {
+    maqOptions = maqOptions.filter(cell => cell != cellId)
+    sortCell = Math.floor(Math.random() * maqOptions.length);
+    mo = maqOptions[sortCell]
+    maqOptions = maqOptions.filter(cell => cell != mo)
+    mo == 'c0' ? c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c1' ? c1.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c2' ? c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c3' ? c3.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c4' ? c4.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c5' ? c5.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c6' ? c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c7' ? c7.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c8' ? c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` :
+      console.log('erro')
+    maqOptions = maqOptions.filter(cell => cell != mo);
+    moveHistoric.push(mo)
+    console.log(moveHistoric)
+    togglePlayer()
+    passagens += 2
+  }
+}
 function togglePlayer() {
   if (currentPlayer == 'X') {
     currentPlayer = 'O'
-  } else {
+  } else if (currentPlayer == 'O') {
     currentPlayer = 'X'
+  } else if (currentPlayer == jogador1) {
+    currentPlayer = jogador2
+  } else {
+    currentPlayer = jogador1
   }
   time.innerHTML = `Vez do ${currentPlayer}`;
 }
@@ -120,7 +219,6 @@ function checkGameStatus() {
     const cellA = cells[a];
     const cellB = cells[b];
     const cellC = cells[c];
-
     if (cellA.textContent === currentPlayer && cellB.textContent === currentPlayer && cellC.textContent === currentPlayer) {
       announceWinner();
       botao.innerHTML = 'Próxima partida'
@@ -141,9 +239,9 @@ function announceWinner() {
   time.style.display = 'none'
   resultado.style.display = 'block'
   resultado.innerHTML = `${currentPlayer} venceu!`
-  if (currentPlayer == 'X') {
+  if (currentPlayer == 'X' || currentPlayer == jogador1) {
     xWins += 1
-  } else if (currentPlayer == 'O') {
+  } else if (currentPlayer == 'O' || currentPlayer == jogador2) {
     oWins += 1
   }
 }
@@ -163,12 +261,21 @@ async function recomecar() {
     botao.style.padding = '25px'
     divBotao1.style.justifyContent = 'center'
   } else {
-    botaoUndo.style.display = 'block'
-    botao.style.padding = '18px'
-    divBotao1.style.justifyContent = 'space-around'
+    if (!contram) {
+      botaoUndo.style.display = 'block'
+      botao.style.padding = '18px'
+      divBotao1.style.justifyContent = 'space-around'
+    } else {
+      botaoUndo.style.display = 'none'
+      botao.style.padding = '25px'
+      divBotao1.style.justifyContent = 'center'
+    }
   }
   botao.addEventListener('click', () => {
     while (debug < 1) {
+      maqOptions = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8']
+      passagens = 0
+
       moveHistoric = []
       totHistoric = 0
       totUndos = 1

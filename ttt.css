@@ -1,9 +1,12 @@
+/*font-family: 'Gaegu', cursive;*/
 *{
     padding: 0px;
     margin: 0px;
     border: none;
+    font-family: cursive;
 }
 body{
+    /*d2b48c*/
     background-color: #d2b48c;
 }
 #divIcon{
@@ -24,6 +27,10 @@ body{
 #less{
     display: none;
     left: 51%;
+}
+#more:hover, #less:hover{
+    font-size: 43px;
+    transition: .4s;
 }
 @keyframes iconAnim {
     0%{
@@ -48,10 +55,10 @@ body{
     width: 80%;
     border: 5px solid rgb(173, 92, 44);
     border-radius: 20px;
-    height: 203px;
     background-color: rgb(255, 134, 63);
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.205);
     animation: apareceDivOpt 2s ease 1 forwards;
+    overflow: hidden;
 }
 @keyframes apareceDivOpt {
     from{
@@ -67,11 +74,93 @@ body{
     font-size: 24px;
     padding: 10px;
 }
-#pcor1,#pcor2{
+#pcor1,#pcor2, #lNovox,#lNovoo{
     display: block;
     font-size: 18px;
     font-family: cursive;
     padding: 5px 0px 5px 15px;
+}
+#pNovox, #pNovoo{
+    font-family: cursive;
+    border: none;
+    padding: 8px 0px 8px 45px;
+    margin: 10px 0px 10px 20px;
+    background-color: #ffe7c8;
+    border: 6px solid #8a683c;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+#pNovox:hover, #pNovoo:hover{
+    background-color: #ffd297;
+    transition: .5s;
+    box-sizing: border-box;
+}
+#pNovox:focus, #pNovoo:focus{
+    border: 8px solid #8a683c;
+    box-sizing: border-box;
+}
+#pError{
+    font-size: 30px;
+    position: absolute;
+    font-family: cursive;
+    color: rgb(70, 10, 10);
+    top: 516px;
+    left: 50%;
+    transform: translateX(-50%);
+    line-break: anywhere;
+    display: none;
+}
+@keyframes errorAnim {
+    0%{
+        opacity: 0;
+        color: rgb(255, 86, 86);
+        font-size: 28px;
+    }
+    15%{
+        opacity: 1;
+        color: rgb(70, 10, 10);
+        font-size: 30px;
+    }
+    80%{
+        opacity: 1;
+        color: rgb(189, 22, 22);
+        font-size: 30px;
+    }
+    100%{
+        opacity: 0;
+        color: rgb(255, 86, 86);
+        font-size: 28px;
+    }
+}
+#enviaInfos{
+    font-family: cursive;
+    font-size: 20px;
+    display: block;
+    margin: 20px auto 20px auto;
+    padding: 20px;
+    background-color: #ffe7c8;
+    border: 6px solid #8a683c;
+    border-radius: 16px;
+    cursor: pointer;
+}
+#enviaInfos:hover{
+    transform: translate(-2px, -4px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.322);
+    background-color: #ffd195;
+    border: 6px solid #704d20;
+    transition: transform .3s, border .6s, background-color .5s, box-shadow .3s
+}
+#enviaInfos:active{
+    border: 6px solid #3f2909;
+    background-color: #f1bf7d;
+}
+@keyframes enviaInfosLoad {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
 }
 #Cores1,#Cores2{
     display: flex;
@@ -130,8 +219,65 @@ body{
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.438);
 }
 #h1a{
+    font-family: 'Gaegu', cursive;
+    font-weight: 700;
     text-align: center;
     padding: 40px 0px 20px 0px;
+}
+#pInicioMenu{
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    font-family: cursive;
+    padding: 5px 0px 5px 15px;
+}
+#inicioMenu{
+    display: flex;
+    justify-content: space-around;
+    width: 20%;
+    margin: 10px auto 25px auto;
+    gap: 25px;
+}
+#botaoPMMenu, #botaoMMMenu{
+    padding: 10px;
+    font-family: cursive;
+    font-size: 16px;
+    background-color: rgb(255, 173, 125);
+    border: 6px solid rgb(109, 27, 27);
+    border-radius: 15px;
+    cursor: pointer;
+}
+#botaoMMMenu, #botaoPMMenu{
+    width: 140px;
+}
+#botaoPMMenu:hover, #botaoMMMenu:hover{
+    background-color: rgb(252, 124, 50);
+    font-weight: 500;
+    transition: .3s;
+}
+#inicio{
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+    margin: 110px auto;
+    gap: 15px;
+}
+#botaoPM, #botaoMM{
+    padding: 50px;
+    font-family: cursive;
+    font-size: 30px;
+    background-color: rgb(255, 173, 125);
+    border: 6px solid rgb(109, 27, 27);
+    border-radius: 28px;
+    cursor: pointer;
+}
+#botaoMM{
+    width: 140px;
+}
+#botaoPM:hover, #botaoMM:hover{
+    background-color: rgb(252, 124, 50);
+    font-weight: 500;
+    transition: .3s;
 }
 #game{
     display: flex;
@@ -141,16 +287,8 @@ body{
 }
 .cell{
     display: flex;
-    align-items: center;
-    margin: auto;
-    height: 75px;
-    width: 75px;
-    border: 2px solid rgba(0, 0, 0, 0.89);
-    cursor: pointer;
-}
-.cell2{
-    display: flex;
-    align-items: center;
+    text-align: center;
+    vertical-align: middle;
     margin: auto;
     height: 75px;
     width: 75px;
@@ -210,7 +348,12 @@ body{
     margin: auto;
     font-family: cursive;
     font-size: 35px;
-    
+}
+.inDiv2{
+    margin: auto;
+    font-family: cursive;
+    font-size: 35px;
+    color: rgb(0, 80, 56);
 }
 #c0{
     border-top-left-radius: 15px;
