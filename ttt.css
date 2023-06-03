@@ -451,5 +451,8 @@
     #pNovoo {
       width: 80%;
     }
+    #pError{
+      font-size: small;
+    }
   }
   

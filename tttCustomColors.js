@@ -262,26 +262,43 @@ botaoXO.addEventListener('click', () => {
       jogador2 = inputO.value
       currentPlayer = jogador1
     } else {
-      console.log('q')
       botaoXO.style.display = 'none'
       pError1.style.display = 'block'
       pError1.style.animation = 'errorAnim 8s ease 1 forwards'
-      divConfig.style.height = '520px'
+      divConfig.style.height = '660px'
+      divpError.style.display='block' 
+      divpError.style.height = '100px'
+      botaoXO.style.animation = 'enviaInfosLoad 1s ease-in-out 1 forwards'
+      setTimeout(()=>{
+        botaoXO.style.display = 'block' 
+        divpError.style.display='none'
+      },9000)
     }
   } else {
     botaoXO.style.display = 'none'
     pError1.style.display = 'block'
     pError1.style.animation = 'errorAnim 8s ease 1 forwards'
-    divConfig.style.height = '520px'
+    divConfig.style.height = '660px'
+    divpError.style.display='block' 
+    divpError.style.height = '100px'
+    botaoXO.style.animation = 'enviaInfosLoad 1s ease-in-out 1 forwards'
+      setTimeout(()=>{
+        botaoXO.style.display = 'block'
+        divpError.style.display='none' 
+      },9000)
+    }
   }
-})
+)
+
+
 inputX.addEventListener('focus', () => {
   if (botaoXO.style.display == 'none') {
     botaoXO.style.animation = 'enviaInfosLoad 2s ease-in-out 1 forwards'
     botaoXO.style.display = 'block'
     pError1.style.display = 'none'
     pError1.style.animation = ''
-    divConfig.style.height = '520px'
+    divConfig.style.height = '660px'
+    divpError.style.display='none'
   }
 })
 inputO.addEventListener('focus', () => {
@@ -290,6 +307,7 @@ inputO.addEventListener('focus', () => {
     botaoXO.style.display = 'block'
     pError1.style.display = 'none'
     pError1.style.animation = ''
-    divConfig.style.height = '520px'
+    divConfig.style.height = '660px'
+    divpError.style.display='none'
   }
 })

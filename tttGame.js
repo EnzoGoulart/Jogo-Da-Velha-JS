@@ -60,6 +60,7 @@ let inputO = document.getElementById('pNovoo')
 let botaoXO = document.getElementById('enviaInfos')
 let pError1 = document.getElementById('pError')
 let divInicio = document.getElementById('inicio')
+let divpError = document.getElementById('divpError')
 
 let totUndos = 1
 let totHistoric = 0
@@ -165,7 +166,6 @@ function clicado(event) {
     if (contram) {
       togglePlayer()
       maqPlay()
-      checkGameStatus()
       recomecar()
     } else {
       checkGameStatus();
@@ -174,21 +174,161 @@ function clicado(event) {
     }
   }
 }
+let cellVazia = 0
+let cellCurrent = 0
+let cellEnemy = 0
+let jogarAqui = false
+let jaJogado = false
+let totJogadasPartida = 0
 function maqPlay() {
   if (contram) {
+    totJogadasPartida += 1
     maqOptions = maqOptions.filter(cell => cell != cellId)
+
+
     sortCell = Math.floor(Math.random() * maqOptions.length);
     mo = maqOptions[sortCell]
+
+
     maqOptions = maqOptions.filter(cell => cell != mo)
-    mo == 'c0' ? c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c1' ? c1.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c2' ? c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c3' ? c3.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c4' ? c4.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c5' ? c5.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c6' ? c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c7' ? c7.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c8' ? c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` :
-      console.log('erro')
-    maqOptions = maqOptions.filter(cell => cell != mo);
+
+
+    const chances = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
+    for (comb of chances) {
+      const [a, b, c] = comb;
+      const ja = cells[a];
+      const jb = cells[b];
+      const jc = cells[c];
+      cellVazia = 0
+      cellCurrent = 0
+      cellEnemy = 0
+
+
+      if (ja.textContent == '') {
+        cellVazia += 1
+        jogarAqui = ja
+
+      }
+      if (jb.textContent == '') {
+        cellVazia += 1
+        jogarAqui = jb
+
+      }
+      if (jc.textContent == '') {
+        cellVazia += 1
+        jogarAqui = jc
+
+      }
+      //currentPlayer é a maquina agora
+      if (ja.textContent == currentPlayer) {
+        cellCurrent += 1
+      }
+      if (jb.textContent == currentPlayer) {
+        cellCurrent += 1
+      }
+      if (jc.textContent == currentPlayer) {
+        cellCurrent += 1
+      }
+
+      togglePlayer()
+      if (ja.textContent == currentPlayer) {
+        cellEnemy += 1
+      }
+      if (jb.textContent == currentPlayer) {
+        cellEnemy += 1
+      }
+      if (jc.textContent == currentPlayer) {
+        cellEnemy += 1
+      }
+      togglePlayer()
+
+
+
+      //inicio 1 jogada avaliações
+      if (totJogadasPartida == 1) {
+        togglePlayer()
+        if (c4.textContent == currentPlayer) {
+          //se vazio
+          togglePlayer()
+          while (jaJogado != true) {
+            let possi = [c0, c2, c6, c8]
+            let random = Math.floor(Math.random() * 4);
+            let sorted = possi[random]
+            if (sorted.innerHTML == '') {
+              sorted.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              jaJogado = true
+            }
+          }
+          break
+
+        } else {
+          togglePlayer()
+          c4.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          jaJogado = true
+        }
+      }
+
+
+
+
+
+
+
+      //inicio avaliações
+      if (cellCurrent == 2 && cellVazia == 1) {
+        if (jogarAqui.innerHTML == '') {
+          jogarAqui.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          jaJogado = true
+          break
+        }
+      } else if (cellEnemy == 2 && cellVazia == 1) {
+        if (jogarAqui.innerHTML == '') {
+          jogarAqui.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          jaJogado = true
+          break
+        }
+      }
+
+
+
+
+
+    }
+
+
+
+    if (!jaJogado) {
+      mo == 'c0' ? c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c1' ? c1.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c2' ? c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c3' ? c3.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c4' ? c4.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c5' ? c5.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c6' ? c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c7' ? c7.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c8' ? c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` :
+        console.log('erro')
+    }
+
+
+
     moveHistoric.push(mo)
-    console.log(moveHistoric)
+    checkGameStatus()
     togglePlayer()
     passagens += 2
+    checkGameStatus()
   }
 }
+/*
+1- se o tiver a winning combination com 2 X e 0 O, coloca o O na ultima e skipa, senao joga aleatorio
+programar jogada do tipo:
+se 2 current
+ se tiver um x no meio e nada alem dele de possivel winning comb, jogar na pontas
+ se tiver um x nas e nada alem dele de possivel winning comb, jogar no meio
+ se tiver um x no meio, cima e nada alem dele de possivel winning comb, jogar nem volta dele
+*/
 function togglePlayer() {
   if (currentPlayer == 'X') {
     currentPlayer = 'O'
