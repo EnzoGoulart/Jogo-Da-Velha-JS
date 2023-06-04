@@ -75,10 +75,18 @@ let botaoPMenu = document.getElementById('botaoMMMenu')
 
 let contram = false
 let pvpchoice = false
-let maqOptions = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8']
 let sortCell;
-let passagens = 0
-let mo;
+
+let xHistoric = []
+let ozes = []
+let currentEnemy = 'O'
+let cellVazia = 0
+let cellCurrent = 0
+let cellEnemy = 0
+let jogarAqui = false
+let jaJogado = false
+let totJogadasPartida = 0
+
 h1a.style.fontSize = '80px'
 cells.forEach(cell => {
   cell.style.display = 'none'
@@ -138,8 +146,13 @@ cells.forEach((cell) => {
 botaoUndo.addEventListener('click', undoFunction)
 
 function undoFunction(event) {
+  if(contram && totUndos >= 3){
+    cells.forEach(cell=>{
+      cell.textContent = ''
+    })
+  }
   let everyNull = Array.from(cells).every(cell => cell.innerHTML == '')
-  if (!everyNull) {
+  if (!everyNull && !contram) {
     let lastMove = moveHistoric[totHistoric - totUndos]
     lastMove == 'c0' ? c0.innerHTML = '' : lastMove == 'c1' ? c1.innerHTML = '' : lastMove == 'c2' ? c2.innerHTML = '' : lastMove == 'c3' ? c3.innerHTML = '' : lastMove == 'c4' ? c4.innerHTML = '' : lastMove == 'c5' ? c5.innerHTML = '' : lastMove == 'c6' ? c6.innerHTML = '' : lastMove == 'c7' ? c7.innerHTML = '' : lastMove == 'c8' ? c8.innerHTML = '' :
       console.log('erro')
@@ -147,9 +160,54 @@ function undoFunction(event) {
     togglePlayer()
     totUndos += 1
   }
+  if(!everyNull && contram){
+    console.log(xHistoric[xHistoric.length-1], ozes[ozes.length-1])
+    if(xHistoric[xHistoric.length-1] == 'c0'){
+      c0.innerHTML = ''
+    }else if(xHistoric[xHistoric.length-1] == 'c1'){
+      c1.innerHTML = ''
+    }else if(xHistoric[xHistoric.length-1] == 'c2'){
+      c2.innerHTML = ''
+    }else if(xHistoric[xHistoric.length-1] == 'c3'){
+      c3.innerHTML = ''
+    }else if(xHistoric[xHistoric.length-1] == 'c4'){
+      c4.innerHTML = ''
+    }else if(xHistoric[xHistoric.length-1] == 'c5'){
+      c5.innerHTML = ''
+    }else if(xHistoric[xHistoric.length-1] == 'c6'){
+      c6.innerHTML = ''
+    }else if(xHistoric[xHistoric.length-1] == 'c7'){
+      c7.innerHTML = ''
+    }else if(xHistoric[xHistoric.length-1] == 'c8'){
+      c8.innerHTML = ''
+    }
+
+    jogarAqui = false
+    jaJogado = false
+    totJogadasPartida -= 1
+
+    xHistoric[xHistoric.length-1].innerHTML = ''
+    ozes[ozes.length-1].innerHTML = ''
+    xHistoric.pop()
+    ozes.pop()
+    totUndos+=1
+    console.log(xHistoric, ozes, jaJogado)
+  }
 }
 function clicado(event) {
+  if (botao.innerHTML == 'Próxima partida') {
+    botaoUndo.style.display = 'none'
+    botao.style.padding = '25px'
+    divBotao1.style.justifyContent = 'center'
+  } else {
+    if (!contram) {
+      botaoUndo.style.display = 'block'
+      botao.style.padding = '18px'
+      divBotao1.style.justifyContent = 'space-around'
+    }
+  }
   cellId = event.target.id
+  xHistoric.push(cellId)
   moveHistoric.push(cellId)
   totHistoric += 1
   if (!gameEnded && botao.innerHTML == 'Próxima partida' || botao.innerHTML == 'Mudar Jogador') {
@@ -158,6 +216,7 @@ function clicado(event) {
   botaoSpawnOnce = true
   if (botaoSpawnOnce) {
     botao.style.display = 'block'
+    botaoUndo.style.display = 'block'
   }
   debug = 0
   const cell = event.target;
@@ -174,25 +233,10 @@ function clicado(event) {
     }
   }
 }
-let cellVazia = 0
-let cellCurrent = 0
-let cellEnemy = 0
-let jogarAqui = false
-let jaJogado = false
-let totJogadasPartida = 0
+
 function maqPlay() {
   if (contram) {
     totJogadasPartida += 1
-    maqOptions = maqOptions.filter(cell => cell != cellId)
-
-
-    sortCell = Math.floor(Math.random() * maqOptions.length);
-    mo = maqOptions[sortCell]
-
-
-    maqOptions = maqOptions.filter(cell => cell != mo)
-
-
     const chances = [
       [0, 1, 2],
       [3, 4, 5],
@@ -229,7 +273,6 @@ function maqPlay() {
         jogarAqui = jc
 
       }
-      //currentPlayer é a maquina agora
       if (ja.textContent == currentPlayer) {
         cellCurrent += 1
       }
@@ -266,6 +309,7 @@ function maqPlay() {
             let sorted = possi[random]
             if (sorted.innerHTML == '') {
               sorted.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              ozes.push(sorted)
               jaJogado = true
             }
           }
@@ -274,70 +318,300 @@ function maqPlay() {
         } else {
           togglePlayer()
           c4.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c4)
           jaJogado = true
+          break
         }
+      } else {
+        jaJogado = false
       }
 
+      if (c4.textContent == currentEnemy && c5.textContent == currentEnemy && c7.textContent == currentEnemy && c8.textContent == currentEnemy) {
 
-
-
-
-
+      }
+      if (c0.textContent == currentEnemy && c1.textContent == currentEnemy && c3.textContent == currentEnemy && c4.textContent == currentEnemy) {
+        c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+        jaJogado = true
+        ozes.push(c8)
+        break
+      } else if (c1.textContent == currentEnemy && c2.textContent == currentEnemy && c4.textContent == currentEnemy && c5.textContent == currentEnemy) {
+        c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+        jaJogado = true
+        ozes.push(c6)
+        break
+      } else if (c3.textContent == currentEnemy && c4.textContent == currentEnemy && c6.textContent == currentEnemy && c7.textContent == currentEnemy) {
+        c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+        jaJogado = true
+        ozes.push(c2)
+        break
+      } else if (c4.textContent == currentEnemy && c5.textContent == currentEnemy && c7.textContent == currentEnemy && c8.textContent == currentEnemy) {
+        c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+        jaJogado = true
+        ozes.push(c2)
+        break
+      } else {
+        jaJogado = false
+      }
 
       //inicio avaliações
       if (cellCurrent == 2 && cellVazia == 1) {
         if (jogarAqui.innerHTML == '') {
           jogarAqui.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
           jaJogado = true
+          ozes.push(jogarAqui)
           break
         }
-      } else if (cellEnemy == 2 && cellVazia == 1) {
+      } else {
+        jaJogado = false
+      }
+      if (cellEnemy == 2 && cellVazia == 1) {
         if (jogarAqui.innerHTML == '') {
           jogarAqui.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
           jaJogado = true
+          ozes.push(jogarAqui)
           break
         }
+      } else {
+        jaJogado = false
       }
-
-
-
-
-
+      //TENTA NAS DUAS BORDAS DEPOIS NAS DUAS PERTO E DPS ALE
     }
-
-
-
-    if (!jaJogado) {
-      mo == 'c0' ? c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c1' ? c1.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c2' ? c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c3' ? c3.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c4' ? c4.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c5' ? c5.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c6' ? c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c7' ? c7.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` : mo == 'c8' ? c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>` :
-        console.log('erro')
+    if (xHistoric.length != ozes.length && jaJogado == false && ozes.length + xHistoric.length <= 7) {
+      if (ozes[ozes.length - 1] == c0) {
+        if (c2.innerHTML == '') {
+          c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c2)
+        } else if (c6.innerHTML == '') {
+          c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c6)
+        } else if (c1.innerHTML == '') {
+          c1.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c1)
+        } else if (c3.innerHTML == '') {
+          c3.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c3)
+        } else {
+          while (true) {
+            let random = Math.floor(Math.random() * 9)
+            let poss = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+            if (poss[random].innerHTML == '') {
+              poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              ozes.push(poss[random])
+              break
+            }
+          }
+        }
+      } else if (ozes[ozes.length - 1] == c2) {
+        if (c0.innerHTML == '') {
+          c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c0)
+        } else if (c8.innerHTML == '') {
+          c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c8)
+        } else if (c1.innerHTML == '') {
+          c1.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c1)
+        } else if (c5.innerHTML == '') {
+          c5.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c5)
+        } else {
+          while (true) {
+            let random = Math.floor(Math.random() * 9)
+            let poss = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+            if (poss[random].innerHTML == '') {
+              poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              ozes.push(poss[random])
+              break
+            }
+          }
+        }
+      } else if (ozes[ozes.length - 1] == c6) {
+        if (c8.innerHTML == '') {
+          c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c8)
+        } else if (c0.innerHTML == '') {
+          c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c0)
+        } else if (c7.innerHTML == '') {
+          c7.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c7)
+        } else if (c3.innerHTML == '') {
+          c3.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c3)
+        } else {
+          while (true) {
+            let random = Math.floor(Math.random() * 9)
+            let poss = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+            if (poss[random].innerHTML == '') {
+              poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              ozes.push(poss[random])
+              break
+            }
+          }
+        }
+      } else if (ozes[ozes.length - 1] == c8) {
+        if (c2.innerHTML == '') {
+          c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c2)
+        } else if (c6.innerHTML == '') {
+          c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c6)
+        } else if (c7.innerHTML == '') {
+          c7.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c7)
+        } else if (c5.innerHTML == '') {
+          c5.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c5)
+        } else {
+          while (true) {
+            let random = Math.floor(Math.random() * 9)
+            let poss = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+            if (poss[random].innerHTML == '') {
+              poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              ozes.push(poss[random])
+              break
+            }
+          }
+        }
+      } else if (ozes[ozes.length - 1] == c1) {
+        if (c0.innerHTML == '') {
+          c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c0)
+        } else if (c2.innerHTML == '') {
+          c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c2)
+        } else {
+          while (true) {
+            let random = Math.floor(Math.random() * 9)
+            let poss = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+            if (poss[random].innerHTML == '') {
+              poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              ozes.push(poss[random])
+              break
+            }
+          }
+        }
+      } else if (ozes[ozes.length - 1] == c3) {
+        if (c0.innerHTML == '') {
+          c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c0)
+        } else if (c6.innerHTML == '') {
+          c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c6)
+        } else {
+          while (true) {
+            let random = Math.floor(Math.random() * 9)
+            let poss = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+            if (poss[random].innerHTML == '') {
+              poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              ozes.push(poss[random])
+              break
+            }
+          }
+        }
+      } else if (ozes[ozes.length - 1] == c5) {
+        if (c2.innerHTML == '') {
+          c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c2)
+        } else if (c8.innerHTML == '') {
+          c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c8)
+        } else {
+          while (true) {
+            let random = Math.floor(Math.random() * 9)
+            let poss = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+            if (poss[random].innerHTML == '') {
+              poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              ozes.push(poss[random])
+              break
+            }
+          }
+        }
+      } else if (ozes[ozes.length - 1] == c7) {
+        if (c8.innerHTML == '') {
+          c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c8)
+        } else if (c6.innerHTML == '') {
+          c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          ozes.push(c6)
+        } else {
+          while (true) {
+            let random = Math.floor(Math.random() * 9)
+            let poss = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+            if (poss[random].innerHTML == '') {
+              poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              ozes.push(poss[random])
+              break
+            }
+          }
+        }
+      } else if (ozes[ozes.length - 1] == c4 && xHistoric.length == 2) {
+        if (c1.textContent == currentEnemy && c3.textContent == currentEnemy || c1.textContent == currentEnemy && c5.textContent == currentEnemy || c1.textContent == currentEnemy && c7.textContent == currentEnemy || c3.textContent == currentEnemy && c5.textContent == currentEnemy || c3.textContent == currentEnemy && c7.textContent == currentEnemy || c5.textContent == currentEnemy && c7.textContent == currentEnemy) {
+          if (c1.textContent == currentEnemy && c3.textContent == currentEnemy) {
+            c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+            ozes.push(c0)
+          } else if (c1.textContent == currentEnemy && c5.textContent == currentEnemy) {
+            c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+            ozes.push(c2)
+          } else if (c1.textContent == currentEnemy && c7.textContent == currentEnemy) {
+            while (true) {
+              let random = Math.floor(Math.random() * 4)
+              let poss = [c0, c2, c6, c8]
+              if (poss[random].textContent == "") {
+                poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+                ozes.push(poss[random])
+                break
+              }
+            }
+          } else if (c3.textContent == currentEnemy && c5.textContent == currentEnemy) {
+            while (true) {
+              let random = Math.floor(Math.random() * 4)
+              let poss = [c0, c2, c6, c8]
+              if (poss[random].textContent == "") {
+                poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+                ozes.push(poss[random])
+                break
+              }
+            }
+          } else if (c3.textContent == currentEnemy && c7.textContent == currentEnemy) {
+            c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+            ozes.push(c6)
+          } else if (c5.textContent == currentEnemy && c7.textContent == currentEnemy) {
+            c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+            ozes.push(c8)
+          } else {
+            console.log('erro')
+          }
+        }
+      } else {
+        while (true) {
+          let random = Math.floor(Math.random() * 9)
+          let poss = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+          if (poss[random].innerHTML == '') {
+            poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+            ozes.push(poss[random])
+            break
+          }
+        }
+      }
     }
-
-
-
-    moveHistoric.push(mo)
     checkGameStatus()
     togglePlayer()
-    passagens += 2
-    checkGameStatus()
   }
 }
-/*
-1- se o tiver a winning combination com 2 X e 0 O, coloca o O na ultima e skipa, senao joga aleatorio
-programar jogada do tipo:
-se 2 current
- se tiver um x no meio e nada alem dele de possivel winning comb, jogar na pontas
- se tiver um x nas e nada alem dele de possivel winning comb, jogar no meio
- se tiver um x no meio, cima e nada alem dele de possivel winning comb, jogar nem volta dele
-*/
 function togglePlayer() {
   if (currentPlayer == 'X') {
     currentPlayer = 'O'
+    currentEnemy = 'X'
   } else if (currentPlayer == 'O') {
     currentPlayer = 'X'
+    currentEnemy = 'O'
   } else if (currentPlayer == jogador1) {
     currentPlayer = jogador2
+    currentEnemy = jogador1
   } else {
     currentPlayer = jogador1
+    currentEnemy = jogador2
   }
   time.innerHTML = `Vez do ${currentPlayer}`;
 }
@@ -405,16 +679,19 @@ async function recomecar() {
       botaoUndo.style.display = 'block'
       botao.style.padding = '18px'
       divBotao1.style.justifyContent = 'space-around'
-    } else {
-      botaoUndo.style.display = 'none'
-      botao.style.padding = '25px'
-      divBotao1.style.justifyContent = 'center'
     }
   }
   botao.addEventListener('click', () => {
     while (debug < 1) {
-      maqOptions = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8']
-      passagens = 0
+
+      cellVazia = 0
+      cellCurrent = 0
+      cellEnemy = 0
+      jogarAqui = false
+      jaJogado = false
+      totJogadasPartida = 0
+      ozes = []
+      xHistoric = []
 
       moveHistoric = []
       totHistoric = 0
