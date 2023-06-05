@@ -11,7 +11,7 @@ let c8 = document.getElementById('c8')
 const cells = document.querySelectorAll('.cell');
 let inDiv = document.querySelectorAll('.inDiv')
 
-let inDiv2 = document.getElementsByClassName('.inDiv2')
+let inDiv2 = document.querySelectorAll('.inDiv2')
 let currentPlayer = 'X'
 let jogador1;
 let jogador2;
@@ -385,6 +385,7 @@ function maqPlay() {
       //TENTA NAS DUAS BORDAS DEPOIS NAS DUAS PERTO E DPS ALE
     }
     if (xHistoric.length != ozes.length && jaJogado == false && ozes.length + xHistoric.length <= 7) {
+      jaJogado = true
       if (ozes[ozes.length - 1] == c0) {
         if (c2.innerHTML == '') {
           c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
@@ -595,6 +596,33 @@ function maqPlay() {
         while (true) {
           let random = Math.floor(Math.random() * 9)
           let poss = [c0, c1, c2, c3, c4, c5, c6, c7, c8]
+          if (poss[random].innerHTML == '') {
+            poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+            ozes.push(poss[random])
+            break
+          }
+        }
+      }
+    }else{
+      jaJogado = false
+    }
+    console.log(xHistoric.length,ozes.length, jaJogado)
+    if(xHistoric.length != ozes.length && ozes.length + xHistoric.length <= 7){
+      console.log('entrou')
+      if(c0.textContent == '' || c2.textContent == '' || c6.textContent == '' || c8.textContent == ''){
+        while (true) {
+          let random = Math.floor(Math.random() * 4)
+          let poss = [c0, c2, c6, c8]
+          if (poss[random].innerHTML == '') {
+            poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+            ozes.push(poss[random])
+            break
+          }
+        }
+      }else if(c1.textContent == '' || c3.textContent== '' || c5.textContent== '' || c7.textContent == ''){
+        while (true) {
+          let random = Math.floor(Math.random() * 4)
+          let poss = [c0, c2, c6, c8]
           if (poss[random].innerHTML == '') {
             poss[random].innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
             ozes.push(poss[random])
