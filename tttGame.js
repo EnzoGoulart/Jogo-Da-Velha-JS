@@ -146,8 +146,8 @@ cells.forEach((cell) => {
 botaoUndo.addEventListener('click', undoFunction)
 
 function undoFunction(event) {
-  if(contram && totUndos >= 3){
-    cells.forEach(cell=>{
+  if (contram && totUndos >= 3) {
+    cells.forEach(cell => {
       cell.textContent = ''
     })
   }
@@ -160,25 +160,25 @@ function undoFunction(event) {
     togglePlayer()
     totUndos += 1
   }
-  if(!everyNull && contram){
-    console.log(xHistoric[xHistoric.length-1], ozes[ozes.length-1])
-    if(xHistoric[xHistoric.length-1] == 'c0'){
+  if (!everyNull && contram) {
+    console.log(xHistoric[xHistoric.length - 1], ozes[ozes.length - 1])
+    if (xHistoric[xHistoric.length - 1] == 'c0') {
       c0.innerHTML = ''
-    }else if(xHistoric[xHistoric.length-1] == 'c1'){
+    } else if (xHistoric[xHistoric.length - 1] == 'c1') {
       c1.innerHTML = ''
-    }else if(xHistoric[xHistoric.length-1] == 'c2'){
+    } else if (xHistoric[xHistoric.length - 1] == 'c2') {
       c2.innerHTML = ''
-    }else if(xHistoric[xHistoric.length-1] == 'c3'){
+    } else if (xHistoric[xHistoric.length - 1] == 'c3') {
       c3.innerHTML = ''
-    }else if(xHistoric[xHistoric.length-1] == 'c4'){
+    } else if (xHistoric[xHistoric.length - 1] == 'c4') {
       c4.innerHTML = ''
-    }else if(xHistoric[xHistoric.length-1] == 'c5'){
+    } else if (xHistoric[xHistoric.length - 1] == 'c5') {
       c5.innerHTML = ''
-    }else if(xHistoric[xHistoric.length-1] == 'c6'){
+    } else if (xHistoric[xHistoric.length - 1] == 'c6') {
       c6.innerHTML = ''
-    }else if(xHistoric[xHistoric.length-1] == 'c7'){
+    } else if (xHistoric[xHistoric.length - 1] == 'c7') {
       c7.innerHTML = ''
-    }else if(xHistoric[xHistoric.length-1] == 'c8'){
+    } else if (xHistoric[xHistoric.length - 1] == 'c8') {
       c8.innerHTML = ''
     }
 
@@ -186,11 +186,11 @@ function undoFunction(event) {
     jaJogado = false
     totJogadasPartida -= 1
 
-    xHistoric[xHistoric.length-1].innerHTML = ''
-    ozes[ozes.length-1].innerHTML = ''
+    xHistoric[xHistoric.length - 1].innerHTML = ''
+    ozes[ozes.length - 1].innerHTML = ''
     xHistoric.pop()
     ozes.pop()
-    totUndos+=1
+    totUndos += 1
     console.log(xHistoric, ozes, jaJogado)
   }
 }
@@ -330,25 +330,33 @@ function maqPlay() {
 
       }
       if (c0.textContent == currentEnemy && c1.textContent == currentEnemy && c3.textContent == currentEnemy && c4.textContent == currentEnemy) {
-        c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
-        jaJogado = true
-        ozes.push(c8)
-        break
+        if (c8.innerHTML == '') {
+          c8.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          jaJogado = true
+          ozes.push(c8)
+          break
+        }
       } else if (c1.textContent == currentEnemy && c2.textContent == currentEnemy && c4.textContent == currentEnemy && c5.textContent == currentEnemy) {
-        c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
-        jaJogado = true
-        ozes.push(c6)
-        break
+        if (c6.innerHTML == '') {
+          c6.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          jaJogado = true
+          ozes.push(c6)
+          break
+        }
       } else if (c3.textContent == currentEnemy && c4.textContent == currentEnemy && c6.textContent == currentEnemy && c7.textContent == currentEnemy) {
-        c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
-        jaJogado = true
-        ozes.push(c2)
-        break
+        if (c2.innerHTML == '') {
+          c2.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          jaJogado = true
+          ozes.push(c2)
+          break
+        }
       } else if (c4.textContent == currentEnemy && c5.textContent == currentEnemy && c7.textContent == currentEnemy && c8.textContent == currentEnemy) {
-        c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
-        jaJogado = true
-        ozes.push(c2)
-        break
+        if (c0.innerHTML == '') {
+          c0.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+          jaJogado = true
+          ozes.push(c2)
+          break
+        }
       } else {
         jaJogado = false
       }

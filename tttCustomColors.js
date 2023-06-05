@@ -2,6 +2,7 @@ pPadrao.addEventListener('click', () => {
   body.style.backgroundColor = '#d2b48c'
   body.style.backgroundImage = ''
   pBlack('#d2b48c', 'black')
+  inDiv2.style.display = 'rgb(51, 0, 146)'
   counter = 0
 })
 pPreto.addEventListener('click', () => {
@@ -12,11 +13,13 @@ pPreto.addEventListener('click', () => {
     cell.style.backgroundColor = 'rgb(71, 71, 71)'
     cell.style.color = 'black'
   })
+  inDiv2.style.display = 'rgb(59, 124, 209)'
   pWhite()
 })
 pBranco.addEventListener('click', () => {
   body.style.backgroundColor = 'white'
   body.style.backgroundImage = ''
+  inDiv2.style.display = 'rgb(0, 51, 117)'
   pBlack('white', 'white')
   cells.forEach(cell => {
     cell.style.color = 'black'
@@ -26,6 +29,7 @@ pVermelho.addEventListener('click', () => {
   body.style.backgroundColor = 'rgb(187, 51, 51)'
   body.style.backgroundImage = ''
   pBlack('white', 'white')
+  inDiv2.style.display = 'rgb(252, 255, 54)'
   cells.forEach(cell => {
     cell.style.backgroundColor = 'rgb(255, 65, 65)'
   })
@@ -34,6 +38,7 @@ pAzul.addEventListener('click', () => {
   pBlack('white', 'white')
   body.style.backgroundImage = 'linear-gradient(to bottom, rgb(78, 39, 255), rgb(63, 22, 139))'
   body.style.backgroundColor = ''
+  inDiv2.style.display = 'rgb(0, 255, 0)'
   cells.forEach(cell => {
     cell.style.backgroundColor = 'rgb(78, 39, 255)'
   })
