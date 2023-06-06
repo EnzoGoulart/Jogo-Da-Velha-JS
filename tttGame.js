@@ -360,6 +360,21 @@ function maqPlay() {
       } else {
         jaJogado = false
       }
+      console.log('aqui:', totJogadasPartida, c0.innerHTML, )
+      if(totJogadasPartida==2 && c0.textContent== currentEnemy && c8.textContent == currentEnemy || totJogadasPartida==2 && c2.textContent == currentEnemy && c6.textContent == currentEnemy){
+        while(true){
+          let possi = [c1,c3,c5,c7]
+          let random = Math.floor(Math.random() * 4);
+          let sorted = possi[random]
+            if (sorted.innerHTML == '') {
+              sorted.innerHTML = `<p class="inDiv2">${currentPlayer}</p>`
+              ozes.push(sorted)
+              jaJogado = true
+              break
+            }
+        }
+        break
+      }
 
       //inicio avaliações
       if (cellCurrent == 2 && cellVazia == 1) {
